@@ -1,11 +1,14 @@
 name: Run-Import
 
 on:
+  schedule:
+    - cron: "15 6 * * *"
+  workflow_dispatch:
   push:
     branches: [ "main" ]
 
 jobs:
-  build:
+  run-import:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -15,7 +18,7 @@ jobs:
       with:
         go-version: '1.23'
 
-    - name: 'Create .env file'
+    - name: Create .env file
       run: |
         touch .env
         echo DB_DATABASE=${{ secrets.DB_DATABASE }} >> .env
