@@ -1,0 +1,28 @@
+name: Run-Import
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.23'
+
+    - name: 'Create .env file'
+      run: |
+        touch .env
+        echo DB_DATABASE=${{ secrets.DB_DATABASE }} >> .env
+        echo DB_PASSWORD=${{ secrets.DB_PASSWORD }} >> .env
+        echo DB_PORT=${{ secrets.DB_PORT }} >> .env
+        echo DB_SERVER=${{ secrets.DB_SERVER }} >> .env
+        echo DB_USERNAME=${{ secrets.DB_USERNAME }} >> .env
+
+    - name: Run import
+      run: go run cmd/importer/*
