@@ -3,4 +3,4 @@ version: '3'
 tasks:
   run:
     cmds:
-      - go run main.go
+      - go run cmd/importer/*
